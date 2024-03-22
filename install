@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# install.sh -- make symbolic links in the users home directory
+# Mike Barker <mike@thebarkers.com>
+# May 14th, 2013
+
+# History:
+# 2023.12.14 MRB
+# * Provide the ability to define the source and target dirs
+# * Rename src and dst variables to source and target
+# * Rename file_ext to backup_ext
+# 2023.03.15 MRB
+# * Refactor from dot-vim's install
+# * No longer install osx launch scripts
+# 2015.04.30 MRB
+# * No longer check for links before creating, just force create them.
+# 2014.11.12 MRB
+# * Added code to install scripts based on system type.
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+SOURCE_DIR="${DIR}/home"
+TARGET_DIR="${HOME}"
+
+# Backup a file/directory by renaming it with the current date and time
+backup_file() {
+  file=$1
+  backup_ext=$(date +%Y%m%d%H%M)
+
+  if [ -e "${file}" ]; then
+    if ! [ -h "${file}" ]; then
+      echo "Backing up ${file} to: ${file}.${backup_ext}"
+      mv "${file}" "${file}.${backup_ext}"
+    fi
+  fi
+}
+
+# create a symbolic link if one does not allready exist
+link_file() {
+  local source=$1
+  local target=$2
+
+  if ! [ -e "${target}" ]; then
+    echo "Linking file ${target}"
+    ln -sfnv "${source}" "${target}"
+  fi
+}
+
+# Backup existing files and link files/dirs in the home folder into
+# the users home directory.
+
+shopt -s dotglob
+for source in "${SOURCE_DIR}"/*; do
+  target="${TARGET_DIR}"/$(basename "$source")
+  backup_file "$target"
+  link_file "$source" "$target"
+done
+shopt -u dotglob
