@@ -49,6 +49,10 @@
 (setq backup-directory-alist '(("." . "~/tmp/emacs/backup/")))
 (setq backup-by-copying t)
 
+;;; Write customizations to a separate file instead of this file.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file t)
+
 ;;; Start server.
 (require 'server)
 (unless (server-running-p)
