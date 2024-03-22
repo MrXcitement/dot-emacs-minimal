@@ -1,0 +1,35 @@
+# Directories to ignore
+auto-install/
+auto-save-list/
+elpa/
+elpy/
+site-lisp/
+semanticdb/
+server/
+straight/
+transient/
+tutorial/
+url/
+var/
+.tutor/
+
+# Files to ignore
+**/eshell/history
+**/eshell/lastdir
+*elc
+.org-id-locations
+\#*#
+abbrev_defs
+ac-*dat
+anything-c-adaptive-history
+bookmarks
+config.el
+custom.el
+ede-projects.el
+ido.last
+projectile-bookmarks.eld
+recentf
+smex-items
+srecode-map.el
+tramp
+wget-log
